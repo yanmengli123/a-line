@@ -21,6 +21,13 @@ After install, the console script `a-liner` is exposed (see `[project.scripts]` 
 ```
 python -m a_liner.cli --help
 ```
+The PDF output prefix defaults to `out` (`--out`); passing `--out foo` writes `foo.pdf`.
+
+### Git remote
+```
+origin → https://github.com/yanmengli123/a-line.git
+```
+Branch `main` tracks `origin/main`. HTTPS push from networks where `github.com:443` is throttled may need an `http.proxy`/`https.proxy` set via `git config --global`, or switching the remote to SSH once a key is in `~/.ssh/`.
 
 ### Run the two bundled sample datasets
 ```
@@ -46,7 +53,7 @@ The package is a flat set of single-purpose modules under [a_liner/](a_liner/). 
 
 - [a_liner/cli.py](a_liner/cli.py) — Orchestrator. `main()` parses argv and calls `run(args)`. `run(args)` performs, in order: configure PDF font embedding (`rcParams['pdf.fonttype']=42`), load sequences via `seqs`, build `common.Size`, plot scaffold lines + names, plot scalebar, plot alignments, plot genes, plot highlights, plot scatter, save PDF.
 - [a_liner/common.py](a_liner/common.py) — `get_args()` defines the full argparse spec grouped into sections (General, Sequence layout/drawing/scale, Alignment files/options, Gene annotation files, Gene legend/drawing, Highlight, Scatter). All argument validators (`validate_range`, `validate_left_margin`, `validate_color`, `validate_marker_style`, `validate_float`) live here. Also defines `Size` (figure layout math), `Text`, `Color`, and the shared `detect_index_update(ID, start, end, seqs)` helper used by every other module to map a (sequence ID, range) to the matching `Scaffold` instance(s).
-- [a_liner/seqs.py](a_liner/seqs.py) — `Scaffold` data class (one sequence region). `input_scaffold_integrated_file()` loads either the Excel config (`--xlsx`) or the TSV config (`-i`); both must have columns `n, ID, start, end, strand, name` and `n` must be consecutive integers starting at 0. `Scalebar` class draws either a bar legend (`--scale legend`), per-track ticks (`tick`), or both. `seqs` is a list-of-lists `seqs[track][index]`.
+- [a_liner/seqs.py](a_liner/seqs.py) — `Scaffold` data class (one sequence region). `input_scaffold_integrated_file()` loads either the Excel config (`--xlsx`) or the TSV config (`-i`); both must have columns `n, ID, start, end, strand, name` and `n` must be consecutive integers starting at 0. `input_scaffold_separete_tsv()` is reached only via the hidden `--sep_input` flag (declared with `argparse.SUPPRESS` so it does not appear in `--help`); it expects one TSV per track with 5 columns `ID<TAB>start<TAB>end<TAB>strand<TAB>name` and no `n` column. `Scalebar` class draws either a bar legend (`--scale legend`), per-track ticks (`tick`), or both. `seqs` is a list-of-lists `seqs[track][index]`.
 - [a_liner/alignment.py](a_liner/alignment.py) — `Colormap` (6 options indexed by `--colormap` 0–5; index 5 is the original multi-hue palette), `Colorbox` (identity legend drawn only when an alignment file was successfully loaded), and one loader per alignment format. All loaders normalize to internal coordinates and call the shared `plot_alignments()`. The `include_nonadjacent` flag controls whether alignments span non-adjacent tracks.
 - [a_liner/genes.py](a_liner/genes.py) — `Gene` arrow drawing, `Feature_color_legend` for keyword→color mapping via regex (patterns in `--feature_color_map` are separated by `/`), `deal_gff()` shared by `plot_genes_from_gff` (9- or 10-column GFF; the optional 10th column is a per-feature color override) and `plot_genes_from_gff_excel`, `plot_genes_from_gb` for GenBank via Biopython. The `RNA` helper resolves exon/CDS strand by matching the parent mRNA's outer coordinates.
 - [a_liner/highlight.py](a_liner/highlight.py) — Region highlights. `n=0` draws a highlight on the scatter background only; otherwise on the sequence track. `detect_index_for_highlights()` clips highlight intervals to scaffold boundaries.
@@ -66,6 +73,7 @@ All input coordinates are 1-based, inclusive. Internally, every loader converts 
 - **`detect_index_update` returns `[[i,j], ...]`**: a hit of `[-1, j]` means the ID/range was not found in any scaffold. Loaders must filter `i == -1`.
 - **`Scaffold.name == 'BLANK'`**: scaffolds named `BLANK` are drawn as empty space (no line, no name, no highlight detection). Use this for visual gaps inside a track.
 - **Two `output_parameters*` calls per module**: each visual module prints a `## … paramenters` block (note the misspelling — preserved across modules) so users can reproduce a figure from the log. New modules should follow the same pattern.
+- **Spelling typos preserved on purpose**: `paramenters` (in log blocks), `Warnig:` (in stderr messages in `common.py` and `seqs.py`), and `separete_tsv` (function name in `seqs.py`) all appear in user-visible output — do not "fix" them or downstream parsers break. New modules should keep the `Warnig:` / `paramenters` style for consistency.
 - **Identity color**: percent identity is mapped linearly into the chosen colormap from `min_identity` to 100. `--min_identity` therefore acts as the floor, not a filter; identity < `--min_identity` is dropped, identity ≥ `--min_identity` is colored with the lowest color in the gradient.
 - **`zorder` layers** (bottom→top): scatter background = 0, scaffold line = 2, highlight = 1 or 3, gene fill = 4, gene edge = 6. Insert new layers consistent with this ordering.
 
