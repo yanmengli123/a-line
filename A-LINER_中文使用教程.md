@@ -131,9 +131,9 @@ Set-Location 'C:\Users\32110\Desktop\a-liner-main'
 创建一个名为 `sequence_config.txt` 的制表符分隔文件：
 
 ```text
-n	ID	start	end	strand	name
-0	sequence_A	1	100000	+	物种 A
-1	sequence_B	1	90000	+	物种 B
+n    ID    start    end    strand    name
+0    sequence_A    1    100000    +    物种 A
+1    sequence_B    1    90000    +    物种 B
 ```
 
 注意：
@@ -183,18 +183,18 @@ out.pdf
 标准结构：
 
 ```text
-n	ID	start	end	strand	name
-0	chr1	1	200000	+	样本 A chr1
-1	chr1	50000	250000	-	样本 B chr1
+n    ID    start    end    strand    name
+0    chr1    1    200000    +    样本 A chr1
+1    chr1    50000    250000    -    样本 B chr1
 ```
 
 同一轨道也可以包含多段序列。相同 `n` 的记录会按照文件中的顺序从左到右排列：
 
 ```text
-n	ID	start	end	strand	name
-0	contig_1	1	50000	+	Contig 1
-0	contig_2	1	30000	+	Contig 2
-1	chromosome	1	100000	+	Reference
+n    ID    start    end    strand    name
+0    contig_1    1    50000    +    Contig 1
+0    contig_2    1    30000    +    Contig 2
+1    chromosome    1    100000    +    Reference
 ```
 
 ### 6.2 Excel 格式
@@ -221,7 +221,7 @@ n | ID | start | end | strand | name
 将 `strand` 设置为 `-`：
 
 ```text
-1	sequence_B	1	90000	-	反向显示的物种 B
+1    sequence_B    1    90000    -    反向显示的物种 B
 ```
 
 程序会反转该序列的横坐标。该序列上的基因箭头方向也会相应转换。
@@ -231,7 +231,7 @@ n | ID | start | end | strand | name
 如果 `name` 为 `BLANK`，该记录会作为布局空白存在，但不会绘制序列线和名称：
 
 ```text
-0	gap	1	20000	+	BLANK
+0    gap    1    20000    +    BLANK
 ```
 
 ## 7. 添加序列比对
@@ -243,14 +243,14 @@ n | ID | start | end | strand | name
 文件没有表头，每行七列：
 
 ```text
-seq_ID1	start1	end1	seq_ID2	start2	end2	identity
+seq_ID1    start1    end1    seq_ID2    start2    end2    identity
 ```
 
 示例：
 
 ```text
-sequence_A	1000	12000	sequence_B	2000	13000	98.5
-sequence_A	20000	35000	sequence_B	40000	25000	92.1
+sequence_A    1000    12000    sequence_B    2000    13000    98.5
+sequence_A    20000    35000    sequence_B    40000    25000    92.1
 ```
 
 第二条记录的 `start2 > end2` 表示反向比对。
@@ -392,13 +392,13 @@ GFF3 的第一列 `seqid` 必须匹配序列配置中的 `ID`。
 支持标准九列 GFF3：
 
 ```text
-seqid	source	type	start	end	score	strand	phase	attributes
+seqid    source    type    start    end    score    strand    phase    attributes
 ```
 
 也支持第十列直接指定 Matplotlib 颜色：
 
 ```text
-seqid	source	type	start	end	score	strand	phase	attributes	#FF0000
+seqid    source    type    start    end    score    strand    phase    attributes    #FF0000
 ```
 
 ### 8.2 GenBank
@@ -431,9 +431,9 @@ GenBank 记录的 `record.id` 必须匹配序列配置中的 `ID`。
 准备一个制表符分隔文件 `feature_colors.txt`，没有表头：
 
 ```text
-Shiga toxin	stxA/stxB	#E41A1C
-phage genes	capsid/tail/portal	#377EB8
-integrase	integrase/int	#FFAA00
+Shiga toxin    stxA/stxB    #E41A1C
+phage genes    capsid/tail/portal    #377EB8
+integrase    integrase/int    #FFAA00
 ```
 
 三列分别是：
@@ -459,14 +459,14 @@ integrase	integrase/int	#FFAA00
 高亮文件没有表头，每行四列：
 
 ```text
-seq_ID	start	end	color
+seq_ID    start    end    color
 ```
 
 示例：
 
 ```text
-sequence_A	10000	25000	#FF9999
-sequence_B	30000	45000	lightblue
+sequence_A    10000    25000    #FF9999
+sequence_B    30000    45000    lightblue
 ```
 
 运行：
@@ -494,16 +494,16 @@ lightblue
 散点文件没有表头，每行三列：
 
 ```text
-seq_ID	position	value
+seq_ID    position    value
 ```
 
 例如：
 
 ```text
-sequence_A	1000	45.3
-sequence_A	2000	47.1
-sequence_A	3000	52.8
-sequence_B	1000	41.2
+sequence_A    1000    45.3
+sequence_A    2000    47.1
+sequence_A    3000    52.8
+sequence_B    1000    41.2
 ```
 
 绘制 GC 含量：
@@ -650,98 +650,98 @@ export PATH="/d/soft/Python310/Scripts:$PATH"
 
 ### 13.1 输入和输出
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `-i FILE` | TSV 序列配置 | 必填选项之一 |
-| `--xlsx FILE` | Excel 序列配置 | 必填选项之一 |
-| `--xlsx_sheet NAME` | Excel 工作表 | 第一个工作表 |
-| `--out PREFIX` | 输出文件前缀 | `out` |
+| 参数                  | 作用           | 默认值        |
+| ------------------- | ------------ | ---------- |
+| `-i FILE`           | TSV 序列配置     | 必填选项之一     |
+| `--xlsx FILE`       | Excel 序列配置   | 必填选项之一     |
+| `--xlsx_sheet NAME` | Excel 工作表    | 第一个工作表     |
+| `--out PREFIX`      | 输出文件前缀       | `out`      |
 | `--figure_size W H` | PDF 宽高，单位为英寸 | `6 0`，高度自动 |
 
 `-i` 和 `--xlsx` 只能选择一个。
 
 ### 13.2 序列布局
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `--seq_layout` | `left`、`center` 或 `right` | `left` |
-| `--margin_bw_seqs` | 同一轨道中序列间距 | 自动 |
-| `--xlim_max` | 横轴最大绘图范围 | 自动 |
-| `--left_margin` | 图像左边距，范围 0.05～0.50 | 自动 |
-| `--seq_color` | 序列线颜色 | `grey` |
-| `--seq_font_size` | 序列名称字号 | `6` |
-| `--seq_thickness` | 序列线宽 | `1.5` |
+| 参数                 | 作用                        | 默认值    |
+| ------------------ | ------------------------- | ------ |
+| `--seq_layout`     | `left`、`center` 或 `right` | `left` |
+| `--margin_bw_seqs` | 同一轨道中序列间距                 | 自动     |
+| `--xlim_max`       | 横轴最大绘图范围                  | 自动     |
+| `--left_margin`    | 图像左边距，范围 0.05～0.50        | 自动     |
+| `--seq_color`      | 序列线颜色                     | `grey` |
+| `--seq_font_size`  | 序列名称字号                    | `6`    |
+| `--seq_thickness`  | 序列线宽                      | `1.5`  |
 
 ### 13.3 比例尺
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `--scale legend` | 只显示独立比例尺 | 默认 |
-| `--scale tick` | 每条序列显示坐标刻度 |  |
-| `--scale both` | 同时显示比例尺和刻度 |  |
-| `--tick_width` | 刻度间隔，单位 bp | 自动 |
-| `--tick_font_size` | 刻度字号 | `3` |
+| 参数                 | 作用         | 默认值 |
+| ------------------ | ---------- | --- |
+| `--scale legend`   | 只显示独立比例尺   | 默认  |
+| `--scale tick`     | 每条序列显示坐标刻度 |     |
+| `--scale both`     | 同时显示比例尺和刻度 |     |
+| `--tick_width`     | 刻度间隔，单位 bp | 自动  |
+| `--tick_font_size` | 刻度字号       | `3` |
 
 ### 13.4 比对
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `-a` / `--alignment` | 自定义七列比对文件 | 无 |
-| `--blastn` | BLASTN outfmt 6 | 无 |
-| `--lastz` | LASTZ general 格式 | 无 |
-| `--mummer` | MUMmer show-coords | 无 |
-| `--minimap2` | minimap2 PAF | 无 |
-| `--min_identity` | 最低一致性百分比 | `70` |
-| `--min_alignment_len` | 最短比对长度 | `0` |
-| `--alignment_alpha` | 比对色块透明度，0～1 | `0.5` |
-| `--colormap` | 一致性色带编号 | `5` |
-| `--include_nonadjacent` | 显示非相邻轨道比对 | 关闭 |
+| 参数                      | 作用                 | 默认值   |
+| ----------------------- | ------------------ | ----- |
+| `-a` / `--alignment`    | 自定义七列比对文件          | 无     |
+| `--blastn`              | BLASTN outfmt 6    | 无     |
+| `--lastz`               | LASTZ general 格式   | 无     |
+| `--mummer`              | MUMmer show-coords | 无     |
+| `--minimap2`            | minimap2 PAF       | 无     |
+| `--min_identity`        | 最低一致性百分比           | `70`  |
+| `--min_alignment_len`   | 最短比对长度             | `0`   |
+| `--alignment_alpha`     | 比对色块透明度，0～1        | `0.5` |
+| `--colormap`            | 一致性色带编号            | `5`   |
+| `--include_nonadjacent` | 显示非相邻轨道比对          | 关闭    |
 
 颜色方案：
 
-| 编号 | Matplotlib 色带 |
-|---|---|
-| `0` | `bone_r` |
-| `1` | `hot_r` |
-| `2` | `BuPu` |
-| `3` | `YlOrRd` |
-| `4` | `YlGnBu` |
-| `5` | 原始彩虹色带 |
+| 编号  | Matplotlib 色带 |
+| --- | ------------- |
+| `0` | `bone_r`      |
+| `1` | `hot_r`       |
+| `2` | `BuPu`        |
+| `3` | `YlOrRd`      |
+| `4` | `YlGnBu`      |
+| `5` | 原始彩虹色带        |
 
 ### 13.5 基因
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `--gff3` | GFF3 文件 | 无 |
-| `--gff_xlsx` | GFF 风格 Excel | 无 |
-| `--gb` | GenBank 文件 | 无 |
-| `--feature` | 要显示的 feature 类型 | `gene` |
-| `--gene_thickness` | 基因箭头相对厚度 | `3` |
-| `--gene_label_attr` | 基因标签属性 | `gene` |
-| `--gene_font_size` | 基因名称字号 | `3` |
-| `--gene_font_rotation` | 基因名称旋转角度 | `75` |
-| `--gene_color` | 基因填充颜色 | `white` |
-| `--gene_edge_color` | 基因边框颜色 | 无 |
-| `--feature_color_map` | 基因关键词颜色表 | 无 |
+| 参数                     | 作用              | 默认值     |
+| ---------------------- | --------------- | ------- |
+| `--gff3`               | GFF3 文件         | 无       |
+| `--gff_xlsx`           | GFF 风格 Excel    | 无       |
+| `--gb`                 | GenBank 文件      | 无       |
+| `--feature`            | 要显示的 feature 类型 | `gene`  |
+| `--gene_thickness`     | 基因箭头相对厚度        | `3`     |
+| `--gene_label_attr`    | 基因标签属性          | `gene`  |
+| `--gene_font_size`     | 基因名称字号          | `3`     |
+| `--gene_font_rotation` | 基因名称旋转角度        | `75`    |
+| `--gene_color`         | 基因填充颜色          | `white` |
+| `--gene_edge_color`    | 基因边框颜色          | 无       |
+| `--feature_color_map`  | 基因关键词颜色表        | 无       |
 
 ### 13.6 高亮和散点
 
-| 参数 | 作用 | 默认值 |
-|---|---|---|
-| `--highlight` | 序列高亮文件 | 无 |
-| `--h_alpha` | 序列高亮透明度 | `0.3` |
-| `--h_thickness` | 序列高亮厚度 | `3.5` |
-| `--scatter` | 散点文件 | 无 |
-| `--marker_color` | 散点颜色 | `deeppink` |
-| `--marker_size` | 散点大小 | `3` |
-| `--marker_style` | 散点形状 | `.` |
-| `--scatter_space` | 散点轨道相对高度 | `0.8` |
-| `--scatter_min` | 散点纵轴最小值 | `0` |
-| `--scatter_max` | 散点纵轴最大值 | `4` |
-| `--scatter_ylines` | 水平参考线 | 无 |
-| `--background_color` | 散点背景颜色 | `whitesmoke` |
-| `--sp_highlight` | 散点背景高亮文件 | 无 |
-| `--sp_h_alpha` | 散点背景高亮透明度 | `0.3` |
+| 参数                   | 作用        | 默认值          |
+| -------------------- | --------- | ------------ |
+| `--highlight`        | 序列高亮文件    | 无            |
+| `--h_alpha`          | 序列高亮透明度   | `0.3`        |
+| `--h_thickness`      | 序列高亮厚度    | `3.5`        |
+| `--scatter`          | 散点文件      | 无            |
+| `--marker_color`     | 散点颜色      | `deeppink`   |
+| `--marker_size`      | 散点大小      | `3`          |
+| `--marker_style`     | 散点形状      | `.`          |
+| `--scatter_space`    | 散点轨道相对高度  | `0.8`        |
+| `--scatter_min`      | 散点纵轴最小值   | `0`          |
+| `--scatter_max`      | 散点纵轴最大值   | `4`          |
+| `--scatter_ylines`   | 水平参考线     | 无            |
+| `--background_color` | 散点背景颜色    | `whitesmoke` |
+| `--sp_highlight`     | 散点背景高亮文件  | 无            |
+| `--sp_h_alpha`       | 散点背景高亮透明度 | `0.3`        |
 
 查看解释器中的完整参数：
 
@@ -1010,7 +1010,7 @@ deeppink
 例如 GFF3：
 
 ```text
-chr1	source	CDS	100	900	.	+	0	ID=cds1;gene=abcA
+chr1    source    CDS    100    900    .    +    0    ID=cds1;gene=abcA
 ```
 
 对应参数：
